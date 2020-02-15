@@ -182,7 +182,8 @@
 
         if(grid[g2y][g2x]=='.') sv2='.';
         if(grid[g2y][g2x]=='|') sv2='|';
-        if((grid[g2y][g2x]=='.') || (grid[g2y][g2x]==' ') || (grid[g2y][g2x]=='|'))
+        if(grid[g2y][g2x]=='=') sv2='=';
+        if((grid[g2y][g2x]=='.') || (grid[g2y][g2x]==' ') || (grid[g2y][g2x]=='|') || (grid[g2y][g2x]=='='))
             grid[g2y][g2x]='Q';
         if(grid[y][x]=='.') score++;
 		if((grid[y][x]=='.') || (grid[y][x]==' '))
@@ -212,6 +213,10 @@
                     {
                         grid[i][j]='|';
                     }
+                    else if (sv2=='=')
+                    {
+                        grid[i][j]='=';
+                    }
                 }
             }
         printf("\n");
@@ -219,7 +224,14 @@
 		gotoxy(125,10);
         printf("Score=%d",score);
         gotoxy(125,11);
-        printf("%d",life+1);
+        printf("Lives=%d",life+1);
+        gotoxy(125,12);
+         if(score<=100) printf("Random Mode Activated");
+        else if(score>100 && score <=200)printf("Target Mode Activated");
+        else if(score>200 && score<=300) printf("Random Mode Activated");
+        else if(score>300 && score<=400) printf("Target Mode Activated");
+        else if(score>400 && score<=500) printf("Random Mode Activated");
+        else printf("Target Mode Activated");
 
 	}
 
@@ -310,9 +322,12 @@
 
 	void Logic(){
 
-        if(score<30) ghost2randmove();
-        else
-            ghost2targetmove();
+        if(score<=100) ghost2randmove();
+        else if(score>100 && score <=200)ghost2targetmove();
+        else if(score>200 && score<=300) ghost2randmove();
+        else if(score>300 && score<=400) ghost2targetmove();
+        else if(score>400 && score<=500) ghost2randmove();
+        else ghost2targetmove();
         if(((y==g2y+1 || y==g2y-1)&& (x==g2x)) && (((dir2==UP2)&&(dir==DOWN))||((dir2==DOWN2)&&(dir==UP))))
         {life--;x=60;y=15;g2x=60;g2y=5;}
         if(((x==g2x+1 || x==g2x-1)&& (y==g2y)) && (((dir2==LEFT2)&&(dir==RIGHT))||((dir2==RIGHT2)&&(dir==LEFT))))
